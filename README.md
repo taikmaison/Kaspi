@@ -123,7 +123,9 @@ docker compose up --build
 стоять в Казахстане; там же по закону РК должны храниться персональные данные пользователей.
 
 1. A-запись домена (и `www`) → IP сервера.
-2. Скопировать проект на сервер (вместе с `services/catalog/content`, ~330 МБ).
+2. `git clone` проекта на сервер, затем шаблоны и медиа: `CONTENT_URL=<ссылка на архив в Google Drive>` в `.env` и
+   `docker run --rm -v "$PWD/services/catalog:/c" -w /c --env-file .env node:24-alpine node tools/fetch-content.js`
+   (подробнее — `services/catalog/content/README.md`).
 3. В `.env` на сервере: `DOMAIN=ваш-домен.kz`, `PUBLIC_URL=https://ваш-домен.kz`, `AUTH__TELEGRAM_BOT_TOKEN=...`.
 4. Запуск: `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build`.
    Caddy сам получит HTTPS-сертификат; шлюз наружу не открыт.
@@ -151,6 +153,7 @@ node tools/update.js                 скачать/обновить шабло�
 node tools/update.js --only=296,310  только эти
 node tools/clean.js                  убрать чужую рекламу и контакты из шаблонов
 node tools/previews.js               снимки превью (нужен puppeteer: cd tools && npm install)
+node tools/fetch-content.js          скачать готовый архив шаблонов и медиа (ссылка — CONTENT_URL в .env)
 ```
 
 После `update.js` и `clean.js` запущенный каталог перечитывает шаблоны сам.

@@ -20,13 +20,17 @@ node tools/clean.js      убрать чужую рекламу и контак�
 node tools/previews.js   снять превью (нужен запущенный сайт и: cd tools && npm install)
 ```
 
-Или взять готовый архив `shaqyru-content-<дата>.zip` (лежит у владельца сайта в Google Drive).
-Ссылку на архив не публикуйте в открытом репозитории. На сервере, из корня проекта:
+Или скачать готовый архив из Google Drive (ссылка — у владельца сайта; в git её не кладите).
+Ссылку записать в `.env` в корне проекта: `CONTENT_URL=...`, затем из папки `services/catalog`:
 
 ```
-pip install gdown
-gdown --fuzzy "<ссылка на архив в Google Drive>" -O content.zip
-unzip -o content.zip -d services/catalog/ && rm content.zip
+node tools/fetch-content.js
+```
+
+На сервере без Node — через Docker (из корня проекта):
+
+```
+docker run --rm -v "$PWD/services/catalog:/c" -w /c --env-file .env node:24-alpine node tools/fetch-content.js
 ```
 
 Собрать такой архив заново (Windows, из папки `services/catalog`): `tar.exe -a -c -f ..\..\..\shaqyru-content.zip content`.
