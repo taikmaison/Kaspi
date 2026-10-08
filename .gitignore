@@ -1,5 +1,7 @@
 # секреты и данные пользователей
 .env
+.env.*
+!.env.example
 services/*/data/
 *.db
 *.db-wal
