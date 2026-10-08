@@ -1,0 +1,14 @@
+# секреты и данные пользователей
+.env
+services/*/data/
+*.db
+*.db-wal
+*.db-shm
+
+# зависимости
+node_modules/
+
+# шаблоны, медиа, шрифты и превью — чужой контент, в репозиторий не кладём;
+# на сервере заполняется командами из services/catalog/tools (см. README в папке)
+services/catalog/content/*
+!services/catalog/content/README.md
